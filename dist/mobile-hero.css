@@ -1,0 +1,156 @@
+.mobile-floral-footer{display:none}
+
+/* Mobile & Tablet Portrait: Portrait and Invitation merge into one seamless single page */
+@media(max-width:700px){
+ #home{
+  display:block;
+  min-height:0;
+  margin:0;
+  padding:0;
+  border:0;
+  background:#fff9ed;
+  overflow:visible;
+ }
+ #home::before,#home::after{
+  content:none;
+ }
+ #home .hero-copy{
+  display:none;
+ }
+ #home .love-line,#home .heart-divider,#home .small-note,#home .mobile-floral-footer{
+  display:none;
+ }
+
+ /* Upper portion: Invitation lead above the couple portrait */
+ .invitation-lead{
+  display:block;
+  text-align:center;
+  padding:24px 6% 6px;
+  background:#fff9ed;
+  animation:wedding-rise 0.8s cubic-bezier(.2,.7,.2,1) both;
+ }
+ .invitation-lead .cross{
+  font-size:24px;
+  color:#ad8d51;
+  display:block;
+  margin:0 auto 6px;
+  line-height:1;
+ }
+ .invitation-lead .eyebrow{
+  font-size:8.5px;
+  letter-spacing:2.2px;
+  font-weight:600;
+  color:#0c2e51;
+  margin:0;
+  line-height:1.5;
+ }
+
+ #home .hero-art{
+  position:relative;
+  inset:auto;
+  width:clamp(190px, 58vw, 260px);
+  max-width:75%;
+  height:auto;
+  aspect-ratio:941 / 753;
+  min-height:0;
+  margin:6px auto 0;
+  overflow:hidden;
+  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 68%,transparent 98%);
+  mask-image:linear-gradient(to bottom,#000 0%,#000 68%,transparent 98%);
+ }
+ #home .hero-art picture{
+  display:block;
+  width:100%;
+  height:auto;
+ }
+ #home .hero-art img{
+  position:static;
+  inset:auto;
+  width:100%;
+  height:auto;
+  display:block;
+  object-fit:contain;
+  margin:0 auto;
+ }
+ #home .hero-art.portrait-waiting img{
+  opacity:0;
+ }
+ #home .hero-art.portrait-revealed img{
+  animation:portrait-fade-in 1.4s ease-out both;
+ }
+ #home .hero-art::after{
+  content:none;
+ }
+
+ /* Unified single-page invitation card */
+ #invitation{
+  background:#fff9ed;
+  padding:0 8% 50px;
+  margin-top:-8px;
+  position:relative;
+  border:0;
+ }
+ /* Remove the clipped top ink-wash that created the dividing line between image and text */
+ #invitation::before{
+  display:none !important;
+  content:none !important;
+ }
+ /* Hide duplicate cross and eyebrow in #invitation on mobile since they are now above the image */
+ #invitation .cross,
+ #invitation .eyebrow{
+  display:none !important;
+ }
+ #invitation .intro{
+  font-size:19px;
+  line-height:1.3;
+  margin:0 0 4px;
+ }
+ #invitation h2{
+  font-size:26px;
+  line-height:1.2;
+  margin:0 0 14px;
+ }
+ #invitation .names{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin:14px 0 18px;
+ }
+ #invitation .names h3{
+  font-size:30px;
+  line-height:1.15;
+  margin:0 0 3px;
+ }
+ #invitation .names p{
+  font-size:11px;
+  line-height:1.5;
+  margin:0;
+ }
+ #invitation .amp{
+  font-size:28px;
+  line-height:1;
+  margin:2px 0;
+ }
+ #invitation .fine-rule{
+  max-width:260px;
+  margin:18px auto;
+ }
+ #invitation .invitation-note{
+  font-size:12px;
+  line-height:1.6;
+  margin:0;
+ }
+ #invitation .invitation-note br{
+  display:none;
+ }
+ #invitation .blessing{
+  font-size:21px;
+  line-height:1.3;
+  margin:18px 0 0;
+ }
+ #invitation .blessing span{
+  font-size:8px;
+  letter-spacing:1.8px;
+  margin-top:8px;
+ }
+}

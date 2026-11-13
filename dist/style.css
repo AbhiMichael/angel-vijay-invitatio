@@ -1,0 +1,2586 @@
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@400;500;600&display=swap');
+
+#music-toggle {
+    position: fixed;
+    right: 20px;
+    bottom: max(20px, env(safe-area-inset-bottom));
+    z-index: 99;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1.5px solid rgba(173, 141, 81, 0.45);
+    border-radius: 50%;
+    background: rgba(255, 252, 245, 0.94);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: var(--navy);
+    box-shadow: 0 4px 16px rgba(12, 46, 81, 0.14);
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.2, 0.8, 0.3, 1);
+    -webkit-tap-highlight-color: transparent;
+}
+
+#music-toggle:hover {
+    background: #0c2e51;
+    color: #e9bc76;
+    border-color: #0c2e51;
+    transform: scale(1.06);
+    box-shadow: 0 6px 20px rgba(12, 46, 81, 0.22);
+}
+
+#music-toggle:active {
+    transform: scale(0.94);
+}
+
+#music-toggle svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    pointer-events: none;
+}
+
+#music-toggle .music-icon-unmuted,
+#music-toggle .music-icon-muted {
+    display: none;
+}
+
+#music-toggle[aria-pressed="true"] .music-icon-unmuted {
+    display: block;
+}
+
+#music-toggle[aria-pressed="false"] .music-icon-muted,
+#music-toggle:not([aria-pressed]) .music-icon-muted {
+    display: block;
+}
+
+#music-toggle:disabled {
+    cursor: wait;
+    opacity: .7;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0
+}
+
+/* Quiet, finite motion keeps the invitation easy to read. */
+@keyframes wedding-rise {
+    from {
+        opacity: 0;
+        transform: translateY(22px)
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0)
+    }
+}
+
+@keyframes portrait-fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes dialog-arrive {
+    from {
+        opacity: 0;
+        transform: translateY(14px) scale(.97)
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1)
+    }
+}
+
+@media(prefers-reduced-motion:no-preference) {
+    .hero-copy>* {
+        animation: wedding-rise .9s cubic-bezier(.2, .7, .2, 1) both
+    }
+
+    .hero-copy h1 {
+        animation-delay: .12s
+    }
+
+    .hero-sub {
+        animation-delay: .25s
+    }
+
+    .hero-date {
+        animation-delay: .38s
+    }
+
+    .hero-copy .small-note {
+        animation-delay: .5s
+    }
+
+    .hero-art.portrait-waiting img,
+    .hero-art.portrait-waiting .art-caption {
+        opacity: 0
+    }
+
+    .hero-art.portrait-revealed img {
+        animation: portrait-fade-in 1.4s ease-out both
+    }
+
+    .hero-art.portrait-revealed .art-caption {
+        animation: wedding-rise .8s ease-out both;
+        animation-delay: 1.2s
+    }
+
+    .motion-ready {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity .85s ease, transform .85s cubic-bezier(.2, .7, .2, 1);
+        transition-delay: var(--reveal-delay, 0ms)
+    }
+
+    .motion-ready.is-visible {
+        opacity: 1;
+        transform: none
+    }
+
+    #rsvp-dialog[open] {
+        animation: dialog-arrive .35s ease-out both
+    }
+
+    #rsvp-dialog[open]::backdrop {
+        animation: appear .3s ease-out both
+    }
+
+    .programme a,
+    .reply-actions button,
+    .slide-controls>button {
+        transition: transform .2s ease, color .2s ease
+    }
+
+    .programme a:hover,
+    .reply-actions button:hover,
+    .slide-controls>button:hover {
+        transform: translateY(-2px)
+    }
+}
+
+:root {
+    --navy: #0c2e51;
+    --cream: #f8e5bb;
+    --paper: #fffaf0;
+    --gold: #ad8d51;
+    --serif: 'Cormorant Garamond', Georgia, serif
+}
+
+* {
+    box-sizing: border-box
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 85px
+}
+
+body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--navy);
+    font-family: 'DM Sans', Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.7
+}
+
+a {
+    color: inherit;
+    text-decoration: none
+}
+
+button,
+input,
+textarea,
+select {
+    font: inherit
+}
+
+button,
+a,
+input,
+select,
+textarea {
+    -webkit-tap-highlight-color: transparent
+}
+
+button {
+    cursor: pointer
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 5px
+}
+
+header {
+    height: 86px;
+    padding: 0 6%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--navy);
+    color: var(--cream);
+    border-bottom: 1px solid #f8e5bb25
+}
+
+nav {
+    display: flex;
+    gap: 36px;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase
+}
+
+nav a:hover {
+    color: white
+}
+
+.monogram {
+    font: 32px var(--serif);
+    letter-spacing: -3px
+}
+
+.monogram span {
+    font-style: italic;
+    font-size: 23px;
+    padding: 0 3px
+}
+
+.nav-rsvp {
+    font-size: 11px;
+    letter-spacing: 2px;
+    border-bottom: 1px solid #f8e5bb88;
+    padding: 7px 0
+}
+
+.nav-rsvp span {
+    margin-left: 24px
+}
+
+.hero {
+    display: grid;
+    grid-template-columns: 46% 54%;
+    min-height: 730px;
+    background: var(--navy);
+    color: var(--cream)
+}
+
+.hero-copy {
+    padding: 70px 13% 55px 14%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center
+}
+
+.eyebrow {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2.8px;
+    line-height: 1.7;
+    margin: 0 0 24px
+}
+
+h1,
+h2,
+h3,
+p {
+    margin-top: 0
+}
+
+h1 {
+    font: 500 clamp(78px, 8vw, 120px)/.95 var(--serif);
+    letter-spacing: -3px;
+    margin: 0 0 25px
+}
+
+h1 em {
+    font-size: .63em;
+    color: #c8ae7c;
+    font-weight: 400
+}
+
+h2 {
+    font: 500 clamp(38px, 4vw, 56px)/1.15 var(--serif);
+    margin-bottom: 20px
+}
+
+h3 {
+    font-family: var(--serif);
+    font-weight: 500
+}
+
+.hero-sub {
+    font: italic 22px var(--serif);
+    color: #f8e5bbcc
+}
+
+.hero-date {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border-top: 1px solid #f8e5bb40;
+    border-bottom: 1px solid #f8e5bb40;
+    padding: 12px 0;
+    margin: 14px 0 28px
+}
+
+.hero-date span {
+    font-size: 9px;
+    letter-spacing: 2px;
+    line-height: 1.8
+}
+
+.hero-date strong {
+    font: 48px var(--serif);
+    padding: 0 20px;
+    border-left: 1px solid #f8e5bb40;
+    border-right: 1px solid #f8e5bb40
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 55px;
+    padding: 15px 23px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border: 1px solid transparent
+}
+
+.cream {
+    background: var(--cream);
+    color: var(--navy)
+}
+
+.button:hover {
+    background: #fff0cc
+}
+
+.small-note {
+    font-size: 9px;
+    letter-spacing: 1px;
+    margin: 15px 0 0;
+    opacity: .65
+}
+
+.hero-art {
+    position: relative;
+    margin: 35px 35px 35px 0;
+    border: 1px solid #f8e5bb70;
+    padding: 10px;
+    border-radius: 300px 300px 3px 3px;
+    overflow: hidden
+}
+
+.hero-art picture {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 650px;
+    border-radius: 300px 300px 0 0;
+    overflow: hidden;
+    background: #fff8eb
+}
+
+.hero-art img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 10px;
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
+    object-fit: cover;
+    object-position: 50% 48%;
+    border-radius: 300px 300px 0 0
+}
+
+.art-caption {
+    position: absolute;
+    bottom: 35px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    color: var(--navy)
+}
+
+.art-caption span {
+    display: block;
+    font-size: 8px;
+    letter-spacing: 3px
+}
+
+.art-caption em {
+    font: italic 40px var(--serif)
+}
+
+.section {
+    padding: 100px 8%
+}
+
+.invitation {
+    text-align: center;
+    background: radial-gradient(ellipse at center, #fffdf8, var(--paper))
+}
+
+.cross {
+    display: block;
+    color: var(--gold);
+    font-size: 35px;
+    margin-bottom: 25px
+}
+
+.invitation .eyebrow {
+    margin-bottom: 22px
+}
+
+.intro {
+    font: italic 23px var(--serif);
+    margin-bottom: 8px
+}
+
+.invitation h2 {
+    font-size: 33px
+}
+
+.names {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 65px;
+    margin: 48px 0 35px
+}
+
+.names h3 {
+    font-size: 40px;
+    margin-bottom: 10px
+}
+
+.names p {
+    font-size: 12px;
+    line-height: 1.9;
+    color: #516071;
+    margin: 0
+}
+
+.amp {
+    font: italic 55px var(--serif);
+    color: var(--gold)
+}
+
+.fine-rule {
+    max-width: 330px;
+    margin: 35px auto;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: var(--gold)
+}
+
+.fine-rule:before,
+.fine-rule:after {
+    content: '';
+    height: 1px;
+    background: #ad8d5155;
+    flex: 1
+}
+
+.invitation-note {
+    font-size: 13px;
+    color: #516071
+}
+
+.blessing {
+    font: italic 24px var(--serif);
+    margin: 28px 0 0
+}
+
+.blessing span {
+    display: block;
+    font: 8px 'DM Sans', sans-serif;
+    letter-spacing: 2px;
+    margin-top: 12px
+}
+
+.celebration {
+    background: var(--cream)
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 45px
+}
+
+.section-heading .eyebrow {
+    margin-bottom: 12px
+}
+
+.section-heading h2 {
+    margin: 0
+}
+
+.date-label {
+    font: italic 30px var(--serif);
+    margin-bottom: 0
+}
+
+.date-label strong {
+    font-size: 55px;
+    font-weight: 400;
+    margin-left: 8px
+}
+
+.programme {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid #0c2e5130;
+    border-bottom: 1px solid #0c2e5130
+}
+
+.programme article {
+    position: relative;
+    padding: 40px 30px 40px 0;
+    margin: 28px 0
+}
+
+.programme article+article {
+    padding-left: 40px;
+    border-left: 1px solid #0c2e5125
+}
+
+.number {
+    position: absolute;
+    top: 0;
+    right: 30px;
+    font-size: 10px;
+    opacity: .5;
+    letter-spacing: 1px
+}
+
+.event-icon {
+    font-size: 28px;
+    height: 50px;
+    color: #897347
+}
+
+.time {
+    font: 40px var(--serif);
+    margin: 12px 0
+}
+
+.time span {
+    font: 10px 'DM Sans', sans-serif;
+    letter-spacing: 1px
+}
+
+.programme h3 {
+    font-size: 29px;
+    margin: 0 0 10px
+}
+
+.programme article p:not(.time) {
+    font-size: 12px;
+    opacity: .8
+}
+
+.invitation-lead {
+    display: none;
+}
+
+.programme a {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: .5px;
+    border-bottom: 1px solid #0c2e5180;
+    padding: 4px 0
+}
+
+.programme-footer {
+    text-align: center;
+    font: italic 21px var(--serif);
+    margin: 30px 0 0
+}
+
+.moments .section-heading>p {
+    font: italic 21px/1.4 var(--serif);
+    margin: 0
+}
+
+.slideshow {
+    position: relative;
+    max-width: 440px;
+    margin: 0 auto;
+    padding: 0;
+    border: none;
+    background: transparent;
+}
+
+/* Cathedral Arched Portrait Frame */
+.slides-frame {
+    position: relative;
+    padding: 10px;
+    background: #ffffff;
+    border-radius: clamp(140px, 34vw, 210px) clamp(140px, 34vw, 210px) 24px 24px;
+    border: 1.5px solid rgba(173, 141, 81, 0.45);
+    box-shadow:
+        0 18px 45px -12px rgba(12, 46, 81, 0.16),
+        0 0 0 5px #fffaf2,
+        0 0 0 6.5px rgba(173, 141, 81, 0.28);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.slides-frame:hover {
+    box-shadow:
+        0 24px 50px -10px rgba(12, 46, 81, 0.2),
+        0 0 0 5px #fffaf2,
+        0 0 0 7px rgba(173, 141, 81, 0.4);
+}
+
+.slides {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    border-radius: clamp(130px, 32vw, 200px) clamp(130px, 32vw, 200px) 16px 16px;
+    background: #fdfbf7;
+    overflow: hidden;
+    touch-action: pan-y;
+    box-shadow: inset 0 0 20px rgba(12, 46, 81, 0.05);
+}
+
+.slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: inherit;
+    display: none !important;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.slide.anime-slide {
+    object-position: center 25%;
+}
+
+.slide.active,
+.slide:not([hidden]) {
+    display: block !important;
+    opacity: 1;
+    pointer-events: auto;
+    animation: gallery-appear 0.6s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+.slide[hidden] {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+@keyframes gallery-appear {
+    0% {
+        opacity: 0.25;
+        transform: scale(1.025);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Elegant Wedding Controls — Previous and Next Arrow Buttons Only */
+.slide-controls {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 26px;
+    padding: 22px 0 6px;
+}
+
+.slide-arrow-btn {
+    position: relative;
+    z-index: 10;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 1.5px solid rgba(173, 141, 81, 0.45);
+    color: var(--navy);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(12, 46, 81, 0.08);
+    transition: all 0.25s cubic-bezier(0.2, 0.8, 0.3, 1);
+    padding: 0;
+    user-select: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.slide-arrow-btn svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    pointer-events: none;
+    transition: transform 0.2s ease;
+}
+
+.slide-arrow-btn:hover {
+    background: var(--navy);
+    color: #e9bc76;
+    border-color: var(--navy);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 22px rgba(12, 46, 81, 0.22);
+}
+
+.slide-arrow-btn:active {
+    transform: scale(0.95);
+}
+
+#prev:hover svg {
+    transform: translateX(-2px);
+}
+
+#next:hover svg {
+    transform: translateX(2px);
+}
+
+.slide-ornament {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--gold);
+    opacity: 0.8;
+    user-select: none;
+}
+
+.slide-ornament::before,
+.slide-ornament::after {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(173, 141, 81, 0.6));
+}
+
+.slide-ornament::after {
+    background: linear-gradient(90deg, rgba(173, 141, 81, 0.6), transparent);
+}
+
+.slide-ornament-symbol {
+    font-size: 16px;
+    line-height: 1;
+}
+
+.rsvp {
+    background: var(--navy);
+    color: var(--cream);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10%
+}
+
+.rsvp h2 {
+    font-size: 64px
+}
+
+.rsvp-intro>p:not(.eyebrow) {
+    font-size: 13px;
+    opacity: .8
+}
+
+.rsvp-flourish {
+    font: 55px var(--serif);
+    margin-top: 40px;
+    letter-spacing: 10px;
+    color: #f8e5bb65
+}
+
+.rsvp-flourish em {
+    font-size: 35px
+}
+
+form>label,
+legend {
+    display: block;
+    font-size: 11px;
+    letter-spacing: .4px;
+    margin-bottom: 9px
+}
+
+label span {
+    opacity: .6
+}
+
+input:not([type=radio]),
+select,
+textarea {
+    width: 100%;
+    border: 1px solid #f8e5bb40;
+    border-radius: 0;
+    background: #ffffff04;
+    color: var(--cream);
+    padding: 13px 15px;
+    margin-bottom: 22px;
+    font-size: 12px
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #f8e5bb70
+}
+
+select option {
+    color: var(--navy);
+    background: var(--paper)
+}
+
+fieldset {
+    padding: 0;
+    margin: 0 0 24px;
+    border: 0;
+    display: flex;
+    gap: 22px
+}
+
+.radio {
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    gap: 7px
+}
+
+input[type=radio] {
+    accent-color: var(--cream)
+}
+
+textarea {
+    resize: vertical
+}
+
+form .button {
+    width: 100%
+}
+
+.form-note {
+    font-size: 10px;
+    opacity: .65;
+    text-align: center;
+    margin-top: 12px
+}
+
+#rsvp-result {
+    border-top: 1px solid #f8e5bb40;
+    margin-top: 22px;
+    padding-top: 20px;
+    font-size: 12px
+}
+
+#reply-text {
+    white-space: pre-wrap;
+    font: 12px/1.6 'DM Sans', sans-serif;
+    background: #ffffff0a;
+    padding: 15px
+}
+
+.reply-actions {
+    display: flex;
+    gap: 10px
+}
+
+.reply-actions button {
+    padding: 10px 15px;
+    border: 1px solid #f8e5bb70;
+    color: var(--cream);
+    background: none
+}
+
+footer {
+    text-align: center;
+    padding: 65px 20px 35px
+}
+
+footer .eyebrow {
+    margin-bottom: 12px
+}
+
+footer h3 {
+    font-size: 32px;
+    margin: 0
+}
+
+.footer-rule {
+    height: 1px;
+    background: #ad8d5144;
+    width: 60px;
+    margin: 25px auto
+}
+
+footer>p:not(.eyebrow) {
+    font-size: 10px;
+    letter-spacing: 1px;
+    margin: 15px 0
+}
+
+footer p span {
+    padding: 0 10px
+}
+
+footer small {
+    font-size: 9px;
+    color: #6a7781
+}
+
+@keyframes appear {
+    from {
+        opacity: .4
+    }
+
+    to {
+        opacity: 1
+    }
+}
+
+@media(min-width:1500px) {
+
+    main,
+    header {
+        max-width: 1600px;
+        margin: auto
+    }
+
+    .hero-copy {
+        padding-left: 18%
+    }
+}
+
+@media(max-width:900px) {
+    .hero-copy {
+        padding: 50px 10%
+    }
+
+    .hero-art {
+        margin: 25px 25px 25px 0
+    }
+
+    .hero-art picture {
+        min-height: 560px
+    }
+
+    .hero {
+        min-height: 630px
+    }
+
+    .names {
+        gap: 30px
+    }
+
+    .names h3 {
+        font-size: 32px
+    }
+
+    .rsvp {
+        gap: 6%
+    }
+
+    .rsvp h2 {
+        font-size: 50px
+    }
+
+    .programme article+article {
+        padding-left: 22px
+    }
+
+    .programme h3 {
+        font-size: 25px
+    }
+}
+
+@media(max-width:650px) {
+    header {
+        height: 70px;
+        padding: 0 6%
+    }
+
+    nav {
+        gap: 18px;
+        font-size: 9px
+    }
+
+    nav a:last-child {
+        display: none
+    }
+
+    .nav-rsvp {
+        font-size: 9px
+    }
+
+    .nav-rsvp span {
+        margin-left: 12px
+    }
+
+    .hero {
+        display: flex;
+        flex-direction: column
+    }
+
+    .hero-copy {
+        align-items: center;
+        text-align: center;
+        padding: 45px 7% 32px
+    }
+
+    .hero-copy .eyebrow {
+        font-size: 8px;
+        margin-bottom: 22px
+    }
+
+    h1 {
+        font-size: 78px;
+        line-height: 1
+    }
+
+    h1 br {
+        display: none
+    }
+
+    h1 em {
+        padding: 0 7px;
+        font-size: .55em
+    }
+
+    .hero-sub {
+        font-size: 21px;
+        margin-bottom: 12px
+    }
+
+    .hero-date {
+        margin: 12px 0 22px
+    }
+
+    .small-note {
+        display: none
+    }
+
+    .hero-art {
+        margin: 0 6% 28px;
+        padding: 7px;
+        border-radius: 240px 240px 0 0;
+        height: 530px
+    }
+
+    .hero-art picture {
+        min-height: 0
+    }
+
+    .hero-art img {
+        inset: 7px;
+        width: calc(100% - 14px);
+        height: calc(100% - 14px);
+        border-radius: 240px 240px 0 0
+    }
+
+    .art-caption {
+        bottom: 25px
+    }
+
+    .art-caption em {
+        font-size: 33px
+    }
+
+    .section {
+        padding: 65px 7%
+    }
+
+    .eyebrow {
+        font-size: 8px;
+        letter-spacing: 2px
+    }
+
+    .invitation h2 {
+        font-size: 29px
+    }
+
+    .names {
+        flex-direction: column;
+        gap: 15px;
+        margin: 30px 0
+    }
+
+    .names h3 {
+        font-size: 36px
+    }
+
+    .amp {
+        font-size: 39px
+    }
+
+    .names p {
+        font-size: 11px
+    }
+
+    .invitation-note {
+        font-size: 12px
+    }
+
+    .section-heading {
+        align-items: flex-start;
+        gap: 15px;
+        margin-bottom: 30px
+    }
+
+    .section-heading h2 {
+        font-size: 38px
+    }
+
+    .date-label {
+        font-size: 19px;
+        white-space: nowrap
+    }
+
+    .date-label strong {
+        display: block;
+        font-size: 43px;
+        text-align: right;
+        margin: 0
+    }
+
+    .programme {
+        grid-template-columns: 1fr
+    }
+
+    .programme article,
+    .programme article+article {
+        padding: 25px 0 25px 75px;
+        margin: 0;
+        border: 0
+    }
+
+    .programme article+article {
+        border-top: 1px solid #0c2e5125
+    }
+
+    .event-icon {
+        position: absolute;
+        left: 15px;
+        top: 35px
+    }
+
+    .number {
+        top: 25px;
+        right: 0
+    }
+
+    .time {
+        font-size: 34px;
+        margin-top: 0
+    }
+
+    .programme h3 {
+        font-size: 28px
+    }
+
+    .programme-footer {
+        font-size: 18px
+    }
+
+    .moments .section-heading>p {
+        display: none
+    }
+
+    .slideshow {
+        max-width: 360px;
+        padding: 0;
+    }
+
+    .slides-frame {
+        padding: 8px;
+        border-radius: clamp(120px, 34vw, 180px) clamp(120px, 34vw, 180px) 20px 20px;
+        box-shadow:
+            0 14px 36px -10px rgba(12, 46, 81, 0.14),
+            0 0 0 4px #fffaf2,
+            0 0 0 5.5px rgba(173, 141, 81, 0.25);
+    }
+
+    .slides {
+        aspect-ratio: 3 / 4;
+        border-radius: clamp(112px, 32vw, 172px) clamp(112px, 32vw, 172px) 14px 14px;
+    }
+
+    .slide {
+        object-fit: cover;
+    }
+
+    .slide-controls {
+        gap: 18px;
+        padding: 16px 0 4px;
+    }
+
+    .slide-arrow-btn {
+        width: 42px;
+        height: 42px;
+    }
+
+    .rsvp {
+        grid-template-columns: 1fr;
+        gap: 30px
+    }
+
+    .rsvp h2 {
+        font-size: 50px
+    }
+
+    .rsvp-flourish {
+        display: none
+    }
+
+    .rsvp-intro>p:not(.eyebrow) {
+        margin-bottom: 0
+    }
+
+    fieldset {
+        gap: 17px
+    }
+
+    .radio {
+        font-size: 10px
+    }
+
+    footer {
+        padding-top: 45px
+    }
+}
+
+@media(prefers-reduced-motion:reduce) {
+    html {
+        scroll-behavior: auto
+    }
+
+    .slide.active {
+        animation: none
+    }
+}
+
+.rsvp-seal-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center
+}
+
+.rsvp-seal {
+    display: block;
+    width: min(220px, 75%);
+    padding: 0;
+    background: none;
+    border: 0;
+    transition: transform .25s ease;
+    filter: drop-shadow(0 15px 22px #0004)
+}
+
+.rsvp-seal:hover {
+    transform: translateY(-5px) rotate(-3deg)
+}
+
+.rsvp-seal img {
+    display: block;
+    width: 100%;
+    height: auto
+}
+
+.rsvp-seal-wrap>p {
+    font-size: 10px;
+    letter-spacing: 2px;
+    margin: 18px 0 0;
+    color: var(--cream)
+}
+
+body.dialog-open {
+    overflow: hidden
+}
+
+#rsvp-dialog {
+    width: min(500px, calc(100% - 32px));
+    max-height: calc(100dvh - 48px);
+    padding: 38px;
+    color: var(--cream);
+    background: var(--navy);
+    border: 1px solid #f8e5bb60;
+    box-shadow: 0 25px 100px #0006;
+    overflow: auto
+}
+
+#rsvp-dialog::backdrop {
+    background: #031426b8;
+    backdrop-filter: blur(5px)
+}
+
+#rsvp-dialog h2 {
+    font-size: 42px;
+    margin: 0 0 25px
+}
+
+#rsvp-dialog .eyebrow {
+    margin: 0 25px 8px 0;
+    font-size: 8px
+}
+
+#close-rsvp {
+    position: absolute;
+    right: 15px;
+    top: 12px;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    background: none;
+    color: var(--cream);
+    font-size: 28px
+}
+
+#rsvp-dialog input,
+#rsvp-dialog select,
+#rsvp-dialog textarea {
+    margin-bottom: 18px
+}
+
+@media(max-width:650px) {
+    .rsvp-seal {
+        width: clamp(140px, 45vw, 175px)
+    }
+
+    #rsvp-dialog {
+        padding: 30px 24px
+    }
+
+    .rsvp-seal-wrap {
+        padding: 0 0 10px
+    }
+}
+
+@media(prefers-reduced-motion:reduce) {
+    .rsvp-seal {
+        transition: none
+    }
+
+    .rsvp-seal:hover {
+        transform: none
+    }
+}
+
+/* Keep the supplied floral frames visible around the invitation copy. */
+#invitation {
+    background: #efe5d7 url('assets/invitation-desktop.webp') center/100% 100% no-repeat;
+    padding: clamp(145px, 14vw, 210px) 20% 110px;
+    min-height: 820px
+}
+
+#invitation .names {
+    gap: 30px;
+    margin: 30px 0
+}
+
+#invitation .names>div {
+    flex: 1;
+    min-width: 0
+}
+
+#invitation .names h3 {
+    font-size: clamp(28px, 3vw, 40px);
+    line-height: 1.15
+}
+
+#invitation .cross {
+    margin-bottom: 16px
+}
+
+#invitation .fine-rule {
+    margin: 25px auto
+}
+
+@media(max-width:650px) {
+    #invitation {
+        background-image: url('assets/invitation-mobile.webp');
+        padding: 165px 18% 135px;
+        min-height: 980px
+    }
+
+    #invitation .eyebrow {
+        font-size: 8px;
+        letter-spacing: 1.6px
+    }
+
+    #invitation .intro {
+        font-size: 20px
+    }
+
+    #invitation h2 {
+        font-size: 27px
+    }
+
+    #invitation .names {
+        gap: 12px;
+        margin: 25px 0
+    }
+
+    #invitation .names h3 {
+        font-size: 32px
+    }
+
+    #invitation .names p {
+        font-size: 11px
+    }
+
+    #invitation .invitation-note br {
+        display: none
+    }
+
+    #invitation .blessing {
+        font-size: 23px
+    }
+}
+
+/* An alternating, fine-line wedding programme. */
+.celebration {
+    background: radial-gradient(ellipse at 50% 45%, #fffaf0 0%, #f8e5bb 100%)
+}
+
+.celebration .section-heading {
+    display: block;
+    text-align: center;
+    margin-bottom: 65px
+}
+
+.celebration .section-heading .eyebrow {
+    display: none
+}
+
+.celebration .section-heading h2 {
+    font-family: 'Great Vibes', var(--serif);
+    font-size: clamp(58px, 7vw, 88px);
+    font-weight: 400;
+    line-height: 1.3;
+    color: #89612f
+}
+
+.celebration .date-label {
+    font: 25px var(--serif);
+    color: #a17a44;
+    margin: 12px 0 0
+}
+
+.celebration .date-label strong {
+    font: inherit;
+    display: inline;
+    margin: 0 0 0 4px
+}
+
+.programme {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 10px 0;
+    border: 0;
+    row-gap: 18px
+}
+
+.programme::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+    background: #b49a70
+}
+
+.programme article,
+.programme article+article {
+    position: relative;
+    margin: 0;
+    padding: 0 0 18px 45px;
+    border: 0;
+    grid-column: 2;
+    text-align: left
+}
+
+.programme article:nth-child(2) {
+    grid-column: 1;
+    grid-row: 2;
+    text-align: right;
+    padding: 0 45px 18px 0
+}
+
+.programme article:nth-child(3) {
+    grid-column: 2;
+    grid-row: 3
+}
+
+.programme article::before {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: 24px;
+    width: 25px;
+    height: 1px;
+    background: #b49a70
+}
+
+.programme article:nth-child(2)::before {
+    left: auto;
+    right: -13px
+}
+
+.programme .number,
+.programme .event-icon {
+    display: none
+}
+
+.programme .time {
+    font: 600 27px var(--serif);
+    letter-spacing: 3px;
+    color: #89612f;
+    margin: 8px 0 4px
+}
+
+.programme .time span {
+    font-size: 9px;
+    letter-spacing: 1px
+}
+
+.programme h3 {
+    font: 500 20px/1.5 var(--serif);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #89612f;
+    margin: 0 0 10px
+}
+
+.programme article p:not(.time) {
+    font-size: 11px;
+    line-height: 1.7;
+    margin-bottom: 8px
+}
+
+.programme a {
+    font-size: 9px
+}
+
+.programme-footer {
+    margin-top: 45px;
+    color: #89612f
+}
+
+@media(max-width:650px) {
+    .celebration .section-heading {
+        margin-bottom: 45px
+    }
+
+    .celebration .section-heading h2 {
+        font-size: 58px
+    }
+
+    .celebration .date-label {
+        font-size: 22px
+    }
+
+    .programme {
+        row-gap: 24px
+    }
+
+    .programme article,
+    .programme article+article {
+        padding: 0 0 12px 22px
+    }
+
+    .programme article:nth-child(2) {
+        padding: 0 22px 12px 0
+    }
+
+    .programme .time {
+        font-size: 23px;
+        letter-spacing: 2px
+    }
+
+    .programme h3 {
+        font-size: 15px;
+        letter-spacing: 1.5px
+    }
+
+    .programme article p:not(.time) {
+        font-size: 10px
+    }
+
+    .programme article::before {
+        width: 17px;
+        left: -8px;
+        top: 22px
+    }
+
+    .programme article:nth-child(2)::before {
+        left: auto;
+        right: -9px
+    }
+
+    .programme a {
+        font-size: 8px
+    }
+
+    .programme-footer {
+        font-size: 17px
+    }
+}
+
+/* A shared countdown beneath the RSVP invitation and seal. */
+.rsvp-countdown-wrap {
+    grid-column: 1/-1;
+    text-align: center;
+    border-top: 1px solid #f8e5bb40;
+    padding-top: 40px
+}
+
+.rsvp-countdown-wrap .eyebrow {
+    margin-bottom: 10px
+}
+
+.countdown-date {
+    font: italic 22px var(--serif);
+    margin-bottom: 25px
+}
+
+.rsvp-countdown {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    max-width: 620px;
+    margin: auto
+}
+
+.rsvp-countdown>div {
+    border: 1px solid #f8e5bb50;
+    border-radius: 12px;
+    padding: 22px 8px;
+    background: #ffffff04
+}
+
+.rsvp-countdown strong {
+    display: block;
+    font: 400 clamp(38px, 5vw, 64px)/1 var(--serif);
+    font-variant-numeric: tabular-nums;
+    color: #f8e5bb
+}
+
+.rsvp-countdown span {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 2px;
+    margin-top: 12px;
+    text-transform: uppercase
+}
+
+.countdown-message {
+    font: italic 25px var(--serif);
+    margin: 24px 0 0
+}
+
+@media(max-width:650px) {
+    .rsvp-countdown-wrap {
+        padding-top: 30px
+    }
+
+    .rsvp-countdown {
+        gap: 8px
+    }
+
+    .rsvp-countdown>div {
+        padding: 18px 4px
+    }
+
+    .rsvp-countdown span {
+        font-size: 8px;
+        letter-spacing: .8px
+    }
+
+    .countdown-date {
+        font-size: 20px
+    }
+}
+
+.rsvp {
+    row-gap: 40px
+}
+
+.programme a.church-location {
+    font: inherit;
+    letter-spacing: inherit;
+    line-height: inherit;
+    padding: 0;
+    border: 0
+}
+
+.programme a.church-location:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px
+}
+
+/* Airy cream invitation with ink washes in place of the floral arch. */
+#invitation {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: #fff9ed;
+    padding: 90px 12%;
+    min-height: 0
+}
+
+#invitation::before,
+#invitation::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
+    width: 480px;
+    height: 540px;
+    background: radial-gradient(ellipse at 30% 30%, #0c2e5138, transparent 48%), radial-gradient(ellipse at 63% 55%, #688da54d, transparent 43%), radial-gradient(ellipse at 35% 72%, #f8e5bb, transparent 55%);
+    filter: url('#ink-wash');
+    opacity: .8
+}
+
+#invitation::before {
+    top: -170px;
+    left: -240px;
+    transform: rotate(-15deg);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 25%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 25%)
+}
+
+#invitation::after {
+    bottom: -175px;
+    right: -235px;
+    transform: rotate(165deg)
+}
+
+#invitation .ink-speckles {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(circle at 6% 28%, #0c2e5133 0 2px, transparent 3px), radial-gradient(circle at 12% 19%, #0c2e5129 0 3px, transparent 4px), radial-gradient(circle at 8% 37%, #ad8d5155 0 2px, transparent 3px), radial-gradient(circle at 92% 69%, #0c2e5133 0 3px, transparent 4px), radial-gradient(circle at 87% 82%, #ad8d5155 0 2px, transparent 3px), radial-gradient(circle at 95% 88%, #0c2e5133 0 2px, transparent 3px)
+}
+
+@media(max-width:650px) {
+    #invitation {
+        padding: 0 8% 55px;
+        min-height: 0
+    }
+
+    #invitation::before {
+        display: none;
+        content: none
+    }
+
+    #invitation::after {
+        right: -325px;
+        bottom: -200px
+    }
+
+    #invitation .names h3 {
+        font-size: 32px
+    }
+}
+
+@media(prefers-reduced-motion:no-preference) {
+
+    #invitation::before,
+    #invitation::after {
+        animation: ink-breathe 12s ease-in-out infinite alternate
+    }
+
+    #invitation::after {
+        animation-delay: -6s
+    }
+
+    @keyframes ink-breathe {
+        from {
+            opacity: .55
+        }
+
+        to {
+            opacity: .9
+        }
+    }
+}
+
+/* Ink washes and a readable mobile programme timeline. */
+#celebration {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: #fff9ed
+}
+
+#celebration::before,
+#celebration::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
+    width: 480px;
+    height: 540px;
+    filter: url('#ink-wash');
+    opacity: .75;
+    background: radial-gradient(ellipse at 30% 30%, #0c2e5138, transparent 48%), radial-gradient(ellipse at 63% 55%, #688da54d, transparent 43%), radial-gradient(ellipse at 35% 72%, #f8e5bb, transparent 55%)
+}
+
+#celebration::before {
+    top: -130px;
+    right: -240px;
+    transform: rotate(35deg)
+}
+
+#celebration::after {
+    bottom: -160px;
+    left: -235px;
+    transform: rotate(190deg)
+}
+
+@media(max-width:650px) {
+    #celebration {
+        padding: 60px 9%
+    }
+
+    #celebration::before {
+        right: -300px
+    }
+
+    #celebration::after {
+        left: -300px
+    }
+
+    #celebration .section-heading {
+        margin-bottom: 36px
+    }
+
+    #celebration .section-heading h2 {
+        font-size: clamp(42px, 12vw, 64px);
+        line-height: 1.25
+    }
+
+    #celebration .date-label {
+        font-size: 23px;
+        margin-top: 14px
+    }
+
+    #celebration .programme {
+        display: block;
+        padding: 0 0 0 18px;
+        margin: 0;
+        max-width: none
+    }
+
+    #celebration .programme::before {
+        left: 4px;
+        top: 12px;
+        bottom: 24px
+    }
+
+    #celebration .programme article,
+    #celebration .programme article:nth-child(2),
+    #celebration .programme article+article {
+        display: block;
+        grid-column: auto;
+        grid-row: auto;
+        text-align: left;
+        padding: 0 0 32px 18px;
+        margin: 0;
+        border: 0
+    }
+
+    #celebration .programme article:last-child {
+        padding-bottom: 0
+    }
+
+    #celebration .programme article::before,
+    #celebration .programme article:nth-child(2)::before {
+        left: -18px;
+        right: auto;
+        top: 15px;
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: #ad8d51;
+        border: 2px solid #fff9ed;
+        box-shadow: 0 0 0 1px #ad8d51
+    }
+
+    #celebration .programme .time {
+        font-size: 29px;
+        letter-spacing: 1px;
+        margin: 0 0 6px
+    }
+
+    #celebration .programme h3 {
+        font-size: 19px;
+        letter-spacing: 1px;
+        line-height: 1.4;
+        margin-bottom: 10px
+    }
+
+    #celebration .programme article p:not(.time) {
+        font-size: 12px;
+        line-height: 1.8;
+        margin-bottom: 10px
+    }
+
+    #celebration .programme a {
+        font-size: 11px;
+        letter-spacing: .3px;
+        padding: 7px 0
+    }
+
+    #celebration .programme a.church-location {
+        font: inherit;
+        letter-spacing: inherit;
+        padding: 0
+    }
+
+    #celebration .programme-footer {
+        font-size: 20px;
+        line-height: 1.5;
+        margin-top: 35px
+    }
+}
+
+@media(prefers-reduced-motion:no-preference) {
+
+    #celebration::before,
+    #celebration::after {
+        animation: ink-breathe 12s ease-in-out infinite alternate
+    }
+
+    #celebration::after {
+        animation-delay: -6s
+    }
+}
+
+/* A few decorative butterflies: no hit targets and no layout movement. */
+.butterfly-garden {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 8;
+    contain: strict
+}
+
+.flying-butterfly {
+    position: absolute;
+    left: -65px;
+    width: 36px;
+    height: 30px;
+    color: #b4c9d5;
+    opacity: 0;
+    will-change: transform;
+    animation: butterfly-flight 27s linear infinite
+}
+
+.flying-butterfly svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    filter: drop-shadow(0 2px 2px #0c2e5115)
+}
+
+.butterfly-wings {
+    transform-origin: 32px 26px;
+    animation: butterfly-flutter .65s ease-in-out infinite alternate
+}
+
+.butterfly-one {
+    top: 18%;
+    animation-delay: -6s
+}
+
+.butterfly-two {
+    top: 52%;
+    width: 28px;
+    height: 24px;
+    color: #e5c68b;
+    animation-duration: 34s;
+    animation-delay: -20s
+}
+
+.butterfly-three {
+    top: 78%;
+    width: 32px;
+    height: 27px;
+    color: #d2dce3;
+    animation-duration: 31s;
+    animation-delay: -11s
+}
+
+@keyframes butterfly-flight {
+    0% {
+        transform: translate3d(-20px, 20px, 0) rotate(-15deg);
+        opacity: 0
+    }
+
+    6% {
+        opacity: .8
+    }
+
+    22% {
+        transform: translate3d(24vw, -38px, 0) rotate(12deg)
+    }
+
+    43% {
+        transform: translate3d(52vw, 22px, 0) rotate(-12deg)
+    }
+
+    63% {
+        transform: translate3d(78vw, -48px, 0) rotate(10deg);
+        opacity: .8
+    }
+
+    80% {
+        transform: translate3d(calc(100vw + 130px), -10px, 0) rotate(-12deg);
+        opacity: 0
+    }
+
+    100% {
+        transform: translate3d(calc(100vw + 130px), -10px, 0);
+        opacity: 0
+    }
+}
+
+@keyframes butterfly-flutter {
+    from {
+        transform: scaleX(1)
+    }
+
+    to {
+        transform: scaleX(.28)
+    }
+}
+
+@media(max-width:650px) {
+    .butterfly-three {
+        display: none
+    }
+
+    .flying-butterfly {
+        width: 27px;
+        height: 23px
+    }
+
+    .butterfly-two {
+        width: 23px;
+        height: 20px
+    }
+}
+
+@media(prefers-reduced-motion:reduce) {
+    .butterfly-garden {
+        display: none
+    }
+
+    .flying-butterfly,
+    .butterfly-wings {
+        animation: none
+    }
+}
+
+body.dialog-open .butterfly-garden {
+    visibility: hidden
+}
+
+/* Matching ink-splash frame for the portrait gallery. */
+#moments {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: #fff9ed
+}
+
+#moments::before,
+#moments::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
+    width: 480px;
+    height: 540px;
+    filter: url('#ink-wash');
+    opacity: .75;
+    background: radial-gradient(ellipse at 30% 30%, #0c2e5138, transparent 48%), radial-gradient(ellipse at 63% 55%, #688da54d, transparent 43%), radial-gradient(ellipse at 35% 72%, #f8e5bb, transparent 55%)
+}
+
+#moments::before {
+    top: -150px;
+    left: -240px;
+    transform: rotate(-15deg)
+}
+
+#moments::after {
+    bottom: -160px;
+    right: -235px;
+    transform: rotate(165deg)
+}
+
+#moments .slideshow {
+    background: transparent
+}
+
+@media(max-width:650px) {
+    #moments::before {
+        left: -300px
+    }
+
+    #moments::after {
+        right: -300px
+    }
+}
+
+@media(prefers-reduced-motion:no-preference) {
+
+    #moments::before,
+    #moments::after {
+        animation: ink-breathe 12s ease-in-out infinite alternate
+    }
+
+    #moments::after {
+        animation-delay: -6s
+    }
+}
+
+/* ==========================================================================
+   Chapter II: Groom & Bride Introduction
+   ========================================================================== */
+.chapter-section {
+    position: relative;
+    background: #fff9ed;
+    padding: 85px 6% 95px;
+    max-width: 580px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.chapter-header {
+    text-align: center;
+    margin-bottom: 34px;
+}
+
+.chapter-eyebrow {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #b89758;
+    font-family: var(--serif);
+    font-weight: 500;
+    margin: 0 0 10px;
+}
+
+.chapter-title {
+    font-family: var(--serif);
+    font-size: clamp(28px, 6vw, 36px);
+    font-weight: 400;
+    color: #213529;
+    line-height: 1.25;
+    margin: 0;
+}
+
+.chapter-couple-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    align-items: start;
+}
+
+.couple-profile {
+    display: flex;
+    flex-direction: column;
+}
+
+.couple-photo-wrap {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background: #f5efe3;
+    border-radius: 2px;
+    box-shadow: 0 4px 14px rgba(12, 46, 81, 0.06);
+}
+
+.couple-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.couple-photo-wrap:hover .couple-photo {
+    transform: scale(1.025);
+}
+
+.couple-info {
+    text-align: left;
+    padding-top: 14px;
+}
+
+.couple-role {
+    font-size: 11px;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    color: #9c8352;
+    font-family: var(--serif);
+    font-weight: 500;
+    margin: 0 0 6px;
+}
+
+.couple-fullname {
+    font-family: var(--serif);
+    font-size: clamp(17px, 3.8vw, 21px);
+    font-weight: 400;
+    color: #213529;
+    line-height: 1.2;
+    margin: 0 0 8px;
+}
+
+.couple-parentage {
+    font-family: var(--serif);
+    font-size: clamp(11.5px, 2.7vw, 13.5px);
+    line-height: 1.45;
+    color: #55675c;
+    margin: 0 0 8px;
+}
+
+.couple-hometown {
+    font-size: clamp(8px, 1.9vw, 9.5px);
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: #8c7e6c;
+    font-weight: 500;
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* ==========================================================================
+   Moment 02: A Shared Glance
+   ========================================================================== */
+.glance-section {
+    position: relative;
+    background: #fff9ed;
+    max-width: 580px;
+    margin: 0 auto;
+    padding: 24px 0 80px;
+    box-sizing: border-box;
+}
+
+.glance-photo-wrap {
+    width: 88%;
+    max-width: 380px;
+    aspect-ratio: 4 / 3;
+    margin: 0 auto;
+    overflow: hidden;
+    background: #f5efe3;
+    border-radius: 1px;
+    box-shadow: 0 8px 24px -4px rgba(12, 46, 81, 0.1);
+}
+
+.glance-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 22%;
+    display: block;
+}
+
+.glance-text {
+    width: 88%;
+    max-width: 380px;
+    margin: 0 auto;
+    padding: 28px 0 0;
+    text-align: left;
+    box-sizing: border-box;
+}
+
+.glance-eyebrow {
+    font-size: 11px;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    color: #586b5e;
+    font-family: var(--serif);
+    font-weight: 500;
+    margin: 0 0 4px;
+}
+
+.glance-title {
+    font-family: 'Great Vibes', cursive, var(--serif);
+    font-size: clamp(38px, 9vw, 50px);
+    font-weight: 400;
+    color: var(--navy);
+    line-height: 1.2;
+    margin: 4px 0 16px;
+}
+
+.glance-caption {
+    font-family: var(--serif);
+    font-size: clamp(15.5px, 3.8vw, 18px);
+    line-height: 1.6;
+    color: #526458;
+    margin: 0;
+}
+
+@media(max-width: 650px) {
+    .chapter-section {
+        padding: 55px 5% 55px;
+    }
+
+    .chapter-couple-grid {
+        max-width: 360px;
+        margin: 0 auto;
+        gap: 12px;
+    }
+
+    .couple-info {
+        padding-top: 10px;
+    }
+
+    .glance-section {
+        padding: 18px 0 55px;
+    }
+
+    .glance-photo-wrap {
+        width: 86%;
+        max-width: 330px;
+        aspect-ratio: 4 / 3;
+        border-radius: 6px;
+    }
+
+    .glance-text {
+        width: 86%;
+        max-width: 330px;
+        padding: 22px 0 0;
+    }
+}
+
+/* ==========================================================================
+   Loading Screen & "Open Invitation" Screen
+   ========================================================================== */
+body.loading-locked {
+    overflow: hidden !important;
+    height: 100vh !important;
+    touch-action: none;
+}
+
+.loading-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: #fffaf0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 24px;
+    box-sizing: border-box;
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.3, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+.loading-screen.fade-out {
+    opacity: 0;
+    transform: scale(1.03);
+    pointer-events: none;
+}
+
+.loader-content {
+    position: relative;
+    max-width: 480px;
+    width: 100%;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.loader-cross {
+    font-size: 24px;
+    color: #ad8d51;
+    margin-bottom: 12px;
+    line-height: 1;
+}
+
+.loader-eyebrow {
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #ad8d51;
+    font-family: var(--serif);
+    margin: 0 0 8px;
+}
+
+.loader-title {
+    font-family: 'Great Vibes', cursive, var(--serif);
+    font-size: clamp(48px, 12vw, 68px);
+    font-weight: 400;
+    color: var(--navy);
+    line-height: 1.15;
+    margin: 0 0 6px;
+}
+
+.loader-title em {
+    font-size: 0.82em;
+    color: #ad8d51;
+    font-style: italic;
+}
+
+.loader-subtitle {
+    font-family: var(--serif);
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #768692;
+    margin: 0 0 32px;
+}
+
+.loader-progress-wrap {
+    margin-top: 16px;
+    transition: opacity 0.4s ease;
+}
+
+.loader-progress-wrap.progress-done {
+    opacity: 0.25;
+    pointer-events: none;
+}
+
+.loader-track {
+    width: 180px;
+    max-width: 70%;
+    height: 2px;
+    background: rgba(173, 141, 81, 0.18);
+    border-radius: 2px;
+    margin: 0 auto 12px;
+    overflow: hidden;
+}
+
+.loader-bar {
+    width: 0%;
+    height: 100%;
+    background: #ad8d51;
+    border-radius: 2px;
+    transition: width 0.15s ease;
+}
+
+.loader-info {
+    display: flex;
+    justify-content: space-between;
+    width: 180px;
+    max-width: 70%;
+    margin: 0 auto;
+    font-family: var(--serif);
+    font-size: 12px;
+    color: #6b7a85;
+    letter-spacing: 0.5px;
+}
+
+.loader-percent {
+    font-weight: 600;
+    color: var(--navy);
+    font-variant-numeric: tabular-nums;
+}
+
+.loader-action {
+    margin-top: 28px;
+    animation: fade-in-up 0.6s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+}
+
+@keyframes fade-in-up {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.open-invitation-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 13px 32px;
+    background: var(--navy);
+    color: #fffaf0;
+    border: none;
+    border-radius: 30px;
+    font-family: var(--serif);
+    font-size: 17px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(12, 46, 81, 0.16);
+    transition: all 0.25s cubic-bezier(0.2, 0.8, 0.3, 1);
+    -webkit-tap-highlight-color: transparent;
+}
+
+.open-invitation-btn:hover {
+    background: #143e6a;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(12, 46, 81, 0.22);
+}
+
+.open-invitation-btn:active {
+    transform: scale(0.97);
+}
+
+.open-invitation-btn .btn-icon {
+    font-size: 16px;
+    line-height: 1;
+    color: #e9bc76;
+}
+
+.loader-hint {
+    font-family: var(--serif);
+    font-size: 12px;
+    color: #8c7e6c;
+    margin: 12px 0 0;
+    font-style: italic;
+    letter-spacing: 0.3px;
+}
